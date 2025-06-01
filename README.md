@@ -2,7 +2,7 @@
 
 [![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-schnell)
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://chendaryen.github.io/NAG.github.io/)
-[![arXiv](https://img.shields.io/badge/arXiv-2412.02030-b31b1b.svg)](https://arxiv.org/abs/2505.21179)
+[![arXiv](https://img.shields.io/badge/arXiv-2505.21179-b31b1b.svg)](https://arxiv.org/abs/2505.21179)
 [![Page Views Count](https://badges.toozhao.com/badges/01JWNDV5JQ2XT69RCZ5KQBCY0E/blue.svg)](https://badges.toozhao.com/stats/01JWNDV5JQ2XT69RCZ5KQBCY0E "Get your own page views count badge on badges.toozhao.com")
 
 
