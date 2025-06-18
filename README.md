@@ -13,6 +13,9 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 ## News
 
+
+**2025-06-09:** 🚀 Wan2.1 and the SDXL pipeline are released!
+
 **2025-06-09:** 🤗 Demo for [4-step Wan2.1 with CausVid](https://huggingface.co/spaces/ChenDY/NAG_wan2-1-fast) video generation is now available!
 
 **2025-06-01:** 🤗 Demo for [Flux-Schnell](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-schnell) and [Flux-Dev](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-dev) are now available!
