@@ -28,6 +28,7 @@ Normalized Attention Guidance (NAG) operates in attention space by extrapolating
 
 ## Usage
 
+### Flux
 You can try NAG in `flux_nag_demo.ipynb`, or 🤗 Hugging Face Demo for [Flux-Schell](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-schnell) and [Flux-Dev](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-dev)!
 
 Loading Custom Pipeline:
@@ -71,6 +72,79 @@ image = pipe(
 ).images[0]
 ```
 
+### Wan2.1
+
+```python
+import torch
+from diffusers import AutoencoderKLWan, UniPCMultistepScheduler
+from src.transformer_wan_nag import NagWanTransformer3DModel
+from src.pipeline_wan_nag import NAGWanPipeline
+
+model_id = "Wan-AI/Wan2.1-T2V-14B-Diffusers"
+vae = AutoencoderKLWan.from_pretrained(model_id, subfolder="vae", torch_dtype=torch.float32)
+transformer = NagWanTransformer3DModel.from_pretrained(model_id, subfolder="transformer", torch_dtype=torch.bfloat16)
+pipe = NAGWanPipeline.from_pretrained(
+    model_id,
+    vae=vae,
+    transformer=transformer,
+    torch_dtype=torch.bfloat16,
+)
+pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config, flow_shift=5.0)
+pipe.to("cuda")
+
+prompt = "An origami fox running in the forest. The fox is made of polygons. speed and passion. realistic."
+negative_prompt = "Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards"
+nag_negative_prompt = "static, low resolution, blurry"
+
+output = pipe(
+    prompt=prompt,
+    negative_prompt=negative_prompt,
+    nag_negative_prompt=nag_negative_prompt,
+    guidance_scale=5.0,
+    nag_scale=9,
+    height=480,
+    width=832,
+    num_inference_steps=25,
+    num_frames=81,
+).frames[0]
+```
+
+For 4-step inference with CausVid, please refer to the [demo](https://huggingface.co/spaces/ChenDY/NAG_wan2-1-fast/blob/main/app.py).
+
+### SDXL
+
+```python
+import torch
+from diffusers import UNet2DConditionModel, LCMScheduler
+from huggingface_hub import hf_hub_download
+from src.pipeline_sdxl_nag import NAGStableDiffusionXLPipeline
+
+base_model_id = "stabilityai/stable-diffusion-xl-base-1.0"
+repo_name = "tianweiy/DMD2"
+ckpt_name = "dmd2_sdxl_4step_unet_fp16.bin"
+
+unet = UNet2DConditionModel.from_config(base_model_id, subfolder="unet").to("cuda", torch.bfloat16)
+unet.load_state_dict(torch.load(hf_hub_download(repo_name, ckpt_name), map_location="cuda"))
+pipe = NAGStableDiffusionXLPipeline.from_pretrained(
+    base_model_id,
+    unet=unet,
+    torch_dtype=torch.bfloat16,
+    variant="fp16",
+).to("cuda")
+pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config, original_inference_steps=4)
+
+
+prompt = "A beautiful cyborg"
+nag_negative_prompt = "robot"
+
+image = pipe(
+    prompt,
+    nag_negative_prompt=nag_negative_prompt,
+    guidance_scale=0,
+    nag_scale=3,
+    num_inference_steps=4,
+).images[0]
+```
 
 ## Citation 
 
