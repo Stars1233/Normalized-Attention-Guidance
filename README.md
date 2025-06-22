@@ -13,8 +13,9 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 ## News
 
+**2025-06-22:** 🎉 Play with the [ComfyUI implementation](https://github.com/ChenDarYen/ComfyUI-NAG) now!
 
-**2025-06-09:** 🚀 Wan2.1 and the SDXL pipeline are released!
+**2025-06-19:** 🚀 Wan2.1 and the SDXL pipeline are released!
 
 **2025-06-09:** 🤗 Demo for [4-step Wan2.1 with CausVid](https://huggingface.co/spaces/ChenDY/NAG_wan2-1-fast) video generation is now available!
 
