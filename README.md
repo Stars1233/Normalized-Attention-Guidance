@@ -13,6 +13,8 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 ## News
 
+**2025-06-22:** 🚀 SD3.5 pipeline is released!
+
 **2025-06-22:** 🎉 Play with the [ComfyUI implementation](https://github.com/ChenDarYen/ComfyUI-NAG) now!
 
 **2025-06-19:** 🚀 Wan2.1 and the SDXL pipeline are released!
@@ -47,7 +49,7 @@ transformer = NAGFluxTransformer2DModel.from_pretrained(
     "black-forest-labs/FLUX.1-schnell",
     subfolder="transformer",
     torch_dtype=torch.bfloat16,
-    token="hf_token"
+    token="hf_token",
 )
 pipe = NAGFluxPipeline.from_pretrained(
     "black-forest-labs/FLUX.1-schnell",
@@ -115,6 +117,32 @@ output = pipe(
 
 For 4-step inference with CausVid, please refer to the [demo](https://huggingface.co/spaces/ChenDY/NAG_wan2-1-fast/blob/main/app.py).
 
+### SD3.5
+
+```python
+import torch
+from src.pipeline_sd3_nag import NAGStableDiffusion3Pipeline
+
+model_id = "stabilityai/stable-diffusion-3.5-large-turbo"
+pipe = NAGStableDiffusion3Pipeline.from_pretrained(
+    model_id,
+    torch_dtype=torch.bfloat16,
+    token="hf_token",
+)
+pipe.to("cuda")
+
+prompt = "A beautiful cyborg"
+nag_negative_prompt = "robot"
+
+image = pipe(
+    prompt,
+    nag_negative_prompt=nag_negative_prompt,
+    guidance_scale=0.,
+    nag_scale=5,
+    num_inference_steps=8,
+).images[0]
+```
+
 ### SDXL
 
 ```python
@@ -136,7 +164,6 @@ pipe = NAGStableDiffusionXLPipeline.from_pretrained(
     variant="fp16",
 ).to("cuda")
 pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config, original_inference_steps=4)
-
 
 prompt = "A beautiful cyborg"
 nag_negative_prompt = "robot"
