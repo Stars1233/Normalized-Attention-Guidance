@@ -13,6 +13,8 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 ## News
 
+**2025-06-24:** 🤗 Demo for [LTX Video Fast](https://huggingface.co/spaces/ChenDY/NAG_ltx-video-distilled) is now available!
+
 **2025-06-22:** 🚀 SD3.5 pipeline is released!
 
 **2025-06-22:** 🎉 Play with the [ComfyUI implementation](https://github.com/ChenDarYen/ComfyUI-NAG) now!
