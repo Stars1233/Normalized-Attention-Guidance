@@ -13,7 +13,7 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 ## News
 
-**2025-06-24:** 🎉 A [ComfyUI node](https://github.com/kijai/ComfyUI-KJNodes/blob/f7eb33abc80a2aded1b46dff0dd14d07856a7d50/nodes/model_optimization_nodes.py#L1568) for Wan is now available! Big thanks to [kijai](https://github.com/kijai)!
+**2025-06-24:** 🎉 A [ComfyUI node](https://github.com/kijai/ComfyUI-KJNodes/blob/f7eb33abc80a2aded1b46dff0dd14d07856a7d50/nodes/model_optimization_nodes.py#L1568) for Wan is now available! Big thanks to [Kijai](https://github.com/kijai)!
 
 **2025-06-24:** 🤗 Demo for [LTX Video Fast](https://huggingface.co/spaces/ChenDY/NAG_ltx-video-distilled) is now available!
 
