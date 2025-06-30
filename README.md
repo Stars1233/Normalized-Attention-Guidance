@@ -1,6 +1,6 @@
 # Normalized Attention Guidance: Universal Negative Guidance for Diffusion Models
 
-[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/ChenDY/NAG_wan2-1-fast)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-Kontext-Dev)
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://chendaryen.github.io/NAG.github.io/)
 [![arXiv](https://img.shields.io/badge/arXiv-2505.21179-b31b1b.svg)](https://arxiv.org/abs/2505.21179)
 [![Page Views Count](https://badges.toozhao.com/badges/01JWNDV5JQ2XT69RCZ5KQBCY0E/blue.svg)](https://badges.toozhao.com/stats/01JWNDV5JQ2XT69RCZ5KQBCY0E "Get your own page views count badge on badges.toozhao.com")
@@ -12,6 +12,9 @@ CFG fails in few-step models. NAG restores effective negative prompting, enablin
 
 
 ## News
+
+
+**2025-06-30:** 🤗 Code and [demo](https://huggingface.co/spaces/ChenDY/NAG_FLUX.1-Kontext-Dev) for `Flux Kontext` is now available!
 
 **2025-06-28:** 🎉 Our [ComfyUI implementation](https://github.com/ChenDarYen/ComfyUI-NAG) now supports `Flux Kontext`, `Wan2.1`, and `Hunyuan Video`!
 
@@ -81,6 +84,44 @@ image = pipe(
     nag_scale=5.0,
     num_inference_steps=4,
     max_sequence_length=256,
+).images[0]
+```
+
+### Flux Kontext
+
+```python
+import torch
+from src.pipeline_flux_kontext_nag import NAGFluxKontextPipeline
+from src.transformer_flux import NAGFluxTransformer2DModel
+
+
+transformer = NAGFluxTransformer2DModel.from_pretrained(
+    "black-forest-labs/FLUX.1-schnell",
+    subfolder="transformer",
+    torch_dtype=torch.bfloat16,
+    token="hf_token",
+)
+pipe = NAGFluxKontextPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-schnell",
+    transformer=transformer,
+    torch_dtype=torch.bfloat16,
+    token="hf_token",
+)
+pipe.to("cuda")
+
+input_image = load_image("https://raw.githubusercontent.com/Comfy-Org/example_workflows/main/flux/kontext/dev/rabbit.jpg")
+prompt = "Using this elegant style, create a portrait of a cute Godzilla wearing a pearl tiara and lace collar, maintaining the same refined quality and soft color tones."
+nag_negative_prompt = "Low resolution, blurry, lack of details"
+
+image = pipe(
+    prompt=prompt,
+    image=input_image,
+    nag_negative_prompt=nag_negative_prompt,
+    guidance_scale=2.5,
+    nag_scale=5.0,
+    num_inference_steps=25,
+    width=input_image.size[0],
+    height=input_image.size[1],
 ).images[0]
 ```
 
