@@ -41,6 +41,14 @@ Normalized Attention Guidance (NAG) operates in attention space by extrapolating
 
 ![](./assets/architecture.jpg)
 
+## Installation
+
+Install directly from GitHub:
+
+```bash
+pip install git+https://github.com/ChenDarYen/Normalized-Attention-Guidance.git
+```
+
 ## Usage
 
 ### Flux
@@ -50,9 +58,8 @@ Loading Custom Pipeline:
 
 ```python
 import torch
-from src.pipeline_flux_nag import NAGFluxPipeline
-from src.transformer_flux import NAGFluxTransformer2DModel
-
+from nag import NAGFluxPipeline
+from nag import NAGFluxTransformer2DModel
 
 transformer = NAGFluxTransformer2DModel.from_pretrained(
     "black-forest-labs/FLUX.1-schnell",
@@ -91,9 +98,9 @@ image = pipe(
 
 ```python
 import torch
-from src.pipeline_flux_kontext_nag import NAGFluxKontextPipeline
-from src.transformer_flux import NAGFluxTransformer2DModel
-
+from diffusers.utils import load_image
+from nag import NAGFluxKontextPipeline
+from nag import NAGFluxTransformer2DModel
 
 transformer = NAGFluxTransformer2DModel.from_pretrained(
     "black-forest-labs/FLUX.1-schnell",
@@ -109,7 +116,8 @@ pipe = NAGFluxKontextPipeline.from_pretrained(
 )
 pipe.to("cuda")
 
-input_image = load_image("https://raw.githubusercontent.com/Comfy-Org/example_workflows/main/flux/kontext/dev/rabbit.jpg")
+input_image = load_image(
+    "https://raw.githubusercontent.com/Comfy-Org/example_workflows/main/flux/kontext/dev/rabbit.jpg")
 prompt = "Using this elegant style, create a portrait of a cute Godzilla wearing a pearl tiara and lace collar, maintaining the same refined quality and soft color tones."
 nag_negative_prompt = "Low resolution, blurry, lack of details"
 
@@ -130,8 +138,8 @@ image = pipe(
 ```python
 import torch
 from diffusers import AutoencoderKLWan, UniPCMultistepScheduler
-from src.transformer_wan_nag import NagWanTransformer3DModel
-from src.pipeline_wan_nag import NAGWanPipeline
+from nag import NagWanTransformer3DModel
+from nag import NAGWanPipeline
 
 model_id = "Wan-AI/Wan2.1-T2V-14B-Diffusers"
 vae = AutoencoderKLWan.from_pretrained(model_id, subfolder="vae", torch_dtype=torch.float32)
@@ -168,7 +176,7 @@ For 4-step inference with CausVid, please refer to the [demo](https://huggingfac
 
 ```python
 import torch
-from src.pipeline_sd3_nag import NAGStableDiffusion3Pipeline
+from nag import NAGStableDiffusion3Pipeline
 
 model_id = "stabilityai/stable-diffusion-3.5-large-turbo"
 pipe = NAGStableDiffusion3Pipeline.from_pretrained(
@@ -196,7 +204,7 @@ image = pipe(
 import torch
 from diffusers import UNet2DConditionModel, LCMScheduler
 from huggingface_hub import hf_hub_download
-from src.pipeline_sdxl_nag import NAGStableDiffusionXLPipeline
+from nag import NAGStableDiffusionXLPipeline
 
 base_model_id = "stabilityai/stable-diffusion-xl-base-1.0"
 repo_name = "tianweiy/DMD2"
